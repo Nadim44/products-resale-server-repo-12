@@ -20,13 +20,16 @@ async function run() {
 
         const categoryCollection = client.db('phoneResale').collection('categoryCollection');
         const allProductCollection = client.db('phoneResale').collection('productCollection');
+        const bookingsCollection = client.db('phoneResale').collection('bookings');
 
+        // category
         app.get('/category', async (req, res) => {
             const query = {};
             const category = await categoryCollection.find(query).toArray();
             res.send(category)
         })
 
+        // categories product
         app.get('/category/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) }
@@ -46,6 +49,14 @@ async function run() {
             const product = await cursor.toArray();
             // console.log(product)
             res.send(product)
+        })
+
+        //booking collection
+        app.post('/bookings', async (req, res) => {
+            const booking = req.body
+            // console.log(booking)
+            const result = await bookingsCollection.insertOne(booking)
+            res.send(result)
         })
 
     }
