@@ -42,6 +42,7 @@ async function run() {
         const allProductCollection = client.db('phoneResale').collection('productCollection');
         const bookingsCollection = client.db('phoneResale').collection('bookings');
         const usersCollection = client.db('phoneResale').collection('users');
+        const addproductsCollection = client.db('phoneResale').collection('addproduct');
 
         // category
         app.get('/category', async (req, res) => {
@@ -91,6 +92,14 @@ async function run() {
             const result = await bookingsCollection.insertOne(booking)
             res.send(result)
         });
+
+
+        //categories select
+        app.get('/categoriesSelect', async (req, res) => {
+            const query = {}
+            const result = await categoryCollection.find(query).project({ category: 1 }).toArray();
+            res.send(result)
+        })
 
 
         // jwt
@@ -153,6 +162,12 @@ async function run() {
             res.send(result)
         })
 
+        // add a product
+        app.post('/addproduct', async (req, res) => {
+            const product = req.body;
+            const result = await addproductsCollection.insertOne(product)
+            res.send(result)
+        })
 
 
     }
