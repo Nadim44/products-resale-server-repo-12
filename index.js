@@ -161,12 +161,27 @@ async function run() {
             const result = await usersCollection.updateOne(filter, updateDoc, options)
             res.send(result)
         })
+        // manage products
+        app.get('/addproduct', verifyJWT, async (req, res) => {
+            const query = {};
+            const products = await addproductsCollection.find(query).toArray();
+            // console.log(products)
+            res.send(products)
+        })
 
         // add a product
-        app.post('/addproduct', async (req, res) => {
+        app.post('/addproduct', verifyJWT, async (req, res) => {
             const product = req.body;
             const result = await addproductsCollection.insertOne(product)
             res.send(result)
+        })
+
+        // delete product
+        app.delete('/addproduct/:id', verifyJWT, async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const result = await addproductsCollection.deleteOne(filter);
+            res.send(result);
         })
 
 
