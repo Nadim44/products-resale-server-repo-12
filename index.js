@@ -141,7 +141,20 @@ async function run() {
             res.send(result)
         })
 
-        // admin// , verifyJWT
+
+
+        // delete user
+        app.delete('/users/:id', verifyJWT, async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const result = await usersCollection.deleteOne(filter);
+            res.send(result);
+        })
+
+
+
+
+        // admin
         app.put('/users/admin/:id', verifyJWT, async (req, res) => {
             const decodedEmail = req.decoded.email;
             const query = { email: decodedEmail };
