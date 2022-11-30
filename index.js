@@ -77,7 +77,7 @@ async function run() {
             res.send(product)
         })
 
-        //booking email address // , verifyJWT
+        //booking email address 
         app.get('/bookings', verifyJWT, async (req, res) => {
             const email = req.query.email;
             // const decodedEmail = req.decoded.email;
@@ -156,7 +156,7 @@ async function run() {
             const user = await usersCollection.findOne(query);
             if (user) {
                 const token = jwt.sign({ email }, process.env.ACCESS_TOKEN, { expiresIn: '30d' })
-                // console.log(token)
+
                 return res.send({ accessToken: token })
             }
             console.log(user)
@@ -228,7 +228,6 @@ async function run() {
         app.get('/addproduct', verifyJWT, async (req, res) => {
             const query = {};
             const products = await addproductsCollection.find(query).toArray();
-            // console.log(products)
             res.send(products)
         })
 
